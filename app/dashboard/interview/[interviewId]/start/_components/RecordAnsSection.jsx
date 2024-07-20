@@ -88,13 +88,15 @@ function RecordAnsSection({MockInterviewQuestions  , activeQuestionIndex , inter
 
       if(resp){
         toast('Answer saved successfully');
+        setLoading(false);
         setUserAnswer('');
         setResults([]);
       }
+      setLoading(false);
       setResults([]);
       setUserAnswer('');
       
-      setLoading(false);
+      
 
   }
 
