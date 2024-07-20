@@ -74,7 +74,7 @@ function RecordAnsSection({MockInterviewQuestions  , activeQuestionIndex , inter
       console.log(MockJsonResp);
       const JsonFeedbackResp = JSON.parse(MockJsonResp);
 
-      const cleanedAnswer = findAndSliceRepeatedAnswer(userAnswer);
+      
 
       const resp = await db.insert(UserAnswer).values({
         mockIdRef: interviewData?.mockId,
