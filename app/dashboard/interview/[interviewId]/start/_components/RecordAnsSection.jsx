@@ -63,6 +63,22 @@ function RecordAnsSection({MockInterviewQuestions  , activeQuestionIndex , inter
     }
   }
 
+  const findAndSliceRepeatedAnswer = (text) => {
+    const words = text.split(' ');
+    const seen = new Set();
+    let lastIndex = words.length;
+  
+    for (let i = 0; i < words.length; i++) {
+      if (seen.has(words[i])) {
+        lastIndex = i;
+        break;
+      }
+      seen.add(words[i]);
+    }
+  
+    return words.slice(0, lastIndex).join(' ');
+  };
+
   const UpdateUserAnswer = async() => {
     
     setLoading(true);
@@ -74,11 +90,13 @@ function RecordAnsSection({MockInterviewQuestions  , activeQuestionIndex , inter
       console.log(MockJsonResp);
       const JsonFeedbackResp = JSON.parse(MockJsonResp);
 
+      const cleanedAnswer = findAndSliceRepeatedAnswer(userAnswer);
+
       const resp = await db.insert(UserAnswer).values({
         mockIdRef: interviewData?.mockId,
         question: MockInterviewQuestions[activeQuestionIndex]?.question,
         correctAns: MockInterviewQuestions[activeQuestionIndex]?.answer,
-        userAns:userAnswer,
+        userAns:cleanedAnswer,
         feedback:JsonFeedbackResp?.feedback,
         rating:JsonFeedbackResp?.rating,
         userEmail:user?.primaryEmailAddress?.emailAddress,
