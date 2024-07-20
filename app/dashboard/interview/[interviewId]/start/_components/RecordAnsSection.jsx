@@ -63,34 +63,6 @@ function RecordAnsSection({MockInterviewQuestions  , activeQuestionIndex , inter
     }
   }
 
-  const findAndSliceRepeatedAnswer = (text) => {
-    // Define the regex pattern as a string for dynamic construction
-    const patternString = '(\\b\\w+\\b)(?=.*\\1)';
-    
-    // Create the regex from the string
-    const pattern = new RegExp(patternString, 'g');
-  
-    const matches = [];
-    let match;
-    
-    while ((match = pattern.exec(text)) !== null) {
-      matches.push(match[1]);
-    }
-    
-    // Remove duplicates and sort by length
-    const uniqueMatches = [...new Set(matches)];
-    uniqueMatches.sort((a, b) => b.length - a.length);
-    
-    // Slice the text to exclude repeated sequences
-    let slicedText = text;
-    uniqueMatches.forEach((seq) => {
-      const regex = new RegExp(`${seq}{2,}`, 'g');
-      slicedText = slicedText.replace(regex, seq);
-    });
-    
-    return slicedText;
-  };
-
   const UpdateUserAnswer = async() => {
     
     setLoading(true);
@@ -108,7 +80,7 @@ function RecordAnsSection({MockInterviewQuestions  , activeQuestionIndex , inter
         mockIdRef: interviewData?.mockId,
         question: MockInterviewQuestions[activeQuestionIndex]?.question,
         correctAns: MockInterviewQuestions[activeQuestionIndex]?.answer,
-        userAns:cleanedAnswer,
+        userAns:userAnswer,
         feedback:JsonFeedbackResp?.feedback,
         rating:JsonFeedbackResp?.rating,
         userEmail:user?.primaryEmailAddress?.emailAddress,
