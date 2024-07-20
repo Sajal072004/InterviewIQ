@@ -92,6 +92,7 @@ function RecordAnsSection({MockInterviewQuestions  , activeQuestionIndex , inter
         setResults([]);
       }
       setResults([]);
+      setUserAnswer('');
       
       setLoading(false);
 
