@@ -12,7 +12,7 @@ import Link from 'next/link';
 function StartInterview({ params }) {
   const [interviewData, setInterviewData] = useState(null);
   const [mockInterviewQuestions, setMockInterviewQuestions] = useState([]);
-  const [activeQuestionIndex , setActiveQuestionIndex] = useState(1);
+  const [activeQuestionIndex , setActiveQuestionIndex] = useState(0);
 
   const cleanInterviewId = params.interviewId.startsWith('resp')
     ? params.interviewId.substring('resp'.length).trim()
