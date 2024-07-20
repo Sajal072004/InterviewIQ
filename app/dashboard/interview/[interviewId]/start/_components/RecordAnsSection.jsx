@@ -64,19 +64,31 @@ function RecordAnsSection({MockInterviewQuestions  , activeQuestionIndex , inter
   }
 
   const findAndSliceRepeatedAnswer = (text) => {
-    const words = text.split(' ');
-    const seen = new Set();
-    let lastIndex = words.length;
+    // Define the regex pattern as a string for dynamic construction
+    const patternString = '(\\b\\w+\\b)(?=.*\\1)';
+    
+    // Create the regex from the string
+    const pattern = new RegExp(patternString, 'g');
   
-    for (let i = 0; i < words.length; i++) {
-      if (seen.has(words[i])) {
-        lastIndex = i;
-        break;
-      }
-      seen.add(words[i]);
+    const matches = [];
+    let match;
+    
+    while ((match = pattern.exec(text)) !== null) {
+      matches.push(match[1]);
     }
-  
-    return words.slice(0, lastIndex).join(' ');
+    
+    // Remove duplicates and sort by length
+    const uniqueMatches = [...new Set(matches)];
+    uniqueMatches.sort((a, b) => b.length - a.length);
+    
+    // Slice the text to exclude repeated sequences
+    let slicedText = text;
+    uniqueMatches.forEach((seq) => {
+      const regex = new RegExp(`${seq}{2,}`, 'g');
+      slicedText = slicedText.replace(regex, seq);
+    });
+    
+    return slicedText;
   };
 
   const UpdateUserAnswer = async() => {
