@@ -35,7 +35,7 @@ function AddNewInterview() {
     setLoading(true);
     console.log(jobPosition, jobDesc, jobExperience);
 
-    const InputPrompt = `Job Position: ${jobPosition}, Job Description: ${jobDesc}, Years of Experience: ${jobExperience}. Depends on Job Position, Job Description, and Years of Experience give us ${process.env.NEXT_PUBLIC_INTERVIEW_QUESTIONS_COUNT} interview questions along with Answers in JSON format`;
+    const InputPrompt = `Job Position: ${jobPosition}, Job Description: ${jobDesc}, Years of Experience: ${jobExperience}. Depends on Job Position, Job Description, and Years of Experience give us ${process.env.NEXT_PUBLIC_INTERVIEW_QUESTIONS_COUNT} interview questions along with Answers in JSON format. Only give a json object and there should be nothing in your response except for json object.`;
 
     try {
       const result = await chatSession.sendMessage(InputPrompt);
