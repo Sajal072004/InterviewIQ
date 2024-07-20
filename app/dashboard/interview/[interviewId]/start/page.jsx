@@ -31,8 +31,42 @@ function StartInterview({ params }) {
       console.log('Database result:', result);
       
       if (result && result.length > 0) {
-        const jsonMockResp = JSON.parse(result[0].jsonMockResponse);
-        console.log('JSON Mock Response:', jsonMockResp);
+        let jsonMockRespString = result[0].jsonMockResponse;
+        console.log('Raw JSON Mock Response:', jsonMockRespString);
+      
+        // Clean the JSON string by trimming
+        jsonMockRespString = jsonMockRespString.trim();
+      
+        // Check if the string starts with '[' and ends with ']'
+        if (jsonMockRespString.startsWith('[') && jsonMockRespString.endsWith(']')) {
+          // Wrap the response inside { "questions": [...] }
+          jsonMockRespString = `{ "questions": ${jsonMockRespString} }`;
+        }
+      
+        // Parse the JSON string safely
+        let jsonMockResp;
+        
+          jsonMockResp = JSON.parse(jsonMockRespString);
+
+        
+        
+        // let jsonMockResp = (result[0].jsonMockResponse.replace(/[^}]*$/, ""));
+        // console.log('JSON Mock Response:', jsonMockResp);
+
+        // if (!jsonMockResp.startsWith('{')) {
+        //   jsonMockResp = '{' + jsonMockResp;
+        // }
+        // if (!jsonMockResp.endsWith('}')) {
+        //   jsonMockResp = jsonMockResp + '}';
+        // }
+
+        // console.log(jsonMockResp)
+
+        // jsonMockResp = JSON.parse(jsonMockResp)
+
+        
+
+        console.log(jsonMockResp);
         
         if (jsonMockResp && jsonMockResp.questions) {
           setMockInterviewQuestions(jsonMockResp.questions);
@@ -50,7 +84,7 @@ function StartInterview({ params }) {
   };
 
   if (!mockInterviewQuestions.length) {
-    return <div>Loading...</div>; // Render loading message until data is available
+    return <div>Loading...</div>;
   }
 
   return (
